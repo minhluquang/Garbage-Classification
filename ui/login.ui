@@ -31,13 +31,14 @@
   <property name="styleSheet">
    <string notr="true">/* Set background image */
 QMainWindow {
-    border-image: url(assets/img/recycling-trash-background-in-bright-colors-free-vector.jpg);
+    border-image: url(assets/img/background.png);
 }
 
 /* Set background for widget */
 #widget {
     background-color: #fff;
     border-radius: 5px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /* Set text color for QLabel */
@@ -59,7 +60,6 @@ QLineEdit:focus {
 
 /* Style for QPushButton */
 QPushButton {	
-	all: unset;
     background-color: #0d6efd;
     border: 2px solid #fff;
     color: #fff;

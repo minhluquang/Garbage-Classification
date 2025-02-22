@@ -1,11 +1,14 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QStackedWidget
 from views.login import Login 
+from views.classify import Classify
 
 app = QApplication(sys.argv)
 widget = QStackedWidget()
 
-login_screen = Login(widget)
+# login_screen = Login(widget)
+# widget.addWidget(login_screen)  
+login_screen = Classify(widget)
 widget.addWidget(login_screen)  
 widget.setFixedSize(1200, 700)  
 widget.show() 

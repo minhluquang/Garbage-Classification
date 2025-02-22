@@ -25,66 +25,54 @@
     <height>700</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>12</pointsize>
+    <weight>50</weight>
+    <bold>false</bold>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">/* Set background image */
-QMainWindow {
-    border-image: url(assets/img/background.png);
+   <string notr="true">QMainWindow {
+	border-image: url(assets/img/background.png);
 }
+
 
 /* Set background for widget */
 #widget {
     background-color: #fff;
     border-radius: 5px;
-	border: 1px solid rgba(0, 0, 0, 0.1);
+	border: 10px solid rgba(0, 0, 0, 0.35);
 }
 
 /* Set text color for QLabel */
 QLabel {
-    color: #767e89;
+    color: #333;
 }
 
-/* Style for QLineEdit */
-QLineEdit {
-    border: none;
-    border-bottom: 2px solid #ccc;
-	color: #000;
-	background: #fff;
+#lbl_title, #lbl_result, #lbl_app_description {
+	font-weight: bold
 }
 
-QLineEdit:focus {
-    border-bottom: 2px solid #28a2a2;
+QPushButton {
+	padding: 10px;
+ 	border-radius: 4px;
+  	border: 2px solid #24b4fb;
+ 	background-color: #24b4fb;
+	color: #fff;
+	margin-top: 10px;
 }
 
-/* Style for QPushButton */
-QPushButton {	
-    background-color: #0d6efd;
-    border: 2px solid #fff;
-    color: #fff;
-    border-radius: 5px;
-    padding: 6px;
+QPushButton:hover {
+   	background-color: #0071e2;
 }
 
-#btn_signup {
-    margin-top: 10px;
-}
-
-#btn_login {
-	background-color: #f8f9fa;
-	color: #333;
-}
-
-#btn_signup:hover,
-#btn_signup:clicked {
-	background-color: #0b5ed7;
-	border: 2px solid #9ac3fe;
-}
-
-#btn_login:hover {
-    background-color: #e2e6ea; 
-    border: 2px solid #adb5bd;
+#lbl_image {
+	margin-top: 4px;
+	border: 2px dashed #333
 }
 </string>
   </property>
@@ -92,6 +80,15 @@ QPushButton {
    <layout class="QGridLayout" name="gridLayout">
     <item row="1" column="1">
      <widget class="QWidget" name="widget" native="true">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>1000</width>
+        <height>600</height>
+       </size>
+      </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <spacer name="horizontalSpacer">
@@ -131,21 +128,23 @@ QPushButton {
           </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="lbl_title">
            <property name="enabled">
             <bool>true</bool>
            </property>
            <property name="font">
             <font>
              <family>Segoe UI</family>
-             <pointsize>18</pointsize>
+             <pointsize>24</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="frameShadow">
             <enum>QFrame::Plain</enum>
            </property>
            <property name="text">
-            <string>Sign up</string>
+            <string>Garbage Classification App</string>
            </property>
            <property name="textFormat">
             <enum>Qt::PlainText</enum>
@@ -161,146 +160,133 @@ QPushButton {
             <number>3</number>
            </property>
            <item>
-            <widget class="QLabel" name="lbl_username">
-             <property name="font">
-              <font>
-               <pointsize>10</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Username</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="input_username">
+            <widget class="QLabel" name="lbl_image">
              <property name="minimumSize">
               <size>
-               <width>250</width>
-               <height>0</height>
+               <width>400</width>
+               <height>400</height>
               </size>
              </property>
              <property name="font">
               <font>
-               <pointsize>12</pointsize>
+               <pointsize>14</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
               </font>
              </property>
+             <property name="mouseTracking">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Drop an image here</string>
+             </property>
              <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              <set>Qt::AlignCenter</set>
              </property>
             </widget>
            </item>
           </layout>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
+          <widget class="QPushButton" name="btn_predict">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Predict</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
            <property name="spacing">
-            <number>3</number>
+            <number>2</number>
            </property>
            <item>
-            <widget class="QLabel" name="lbl_password">
+            <widget class="QLabel" name="lbl_result">
              <property name="font">
               <font>
-               <pointsize>10</pointsize>
+               <pointsize>16</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">
-              <string>Password</string>
+              <string>Result: </string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="input_password">
-             <property name="minimumSize">
-              <size>
-               <width>250</width>
-               <height>0</height>
-              </size>
+            <widget class="QLabel" name="lbl_predict">
+             <property name="enabled">
+              <bool>true</bool>
              </property>
              <property name="font">
               <font>
                <pointsize>12</pointsize>
               </font>
              </property>
-             <property name="echoMode">
-              <enum>QLineEdit::Password</enum>
+             <property name="text">
+              <string>TextLabel</string>
              </property>
-             <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+             <property name="scaledContents">
+              <bool>false</bool>
+             </property>
+             <property name="wordWrap">
+              <bool>false</bool>
+             </property>
+             <property name="openExternalLinks">
+              <bool>false</bool>
              </property>
             </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </item>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <property name="spacing">
-            <number>3</number>
+            <number>2</number>
            </property>
            <item>
-            <widget class="QLabel" name="lbl_password_2">
+            <widget class="QLabel" name="lbl_app_description">
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>App description:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_2">
              <property name="font">
               <font>
                <pointsize>10</pointsize>
               </font>
              </property>
              <property name="text">
-              <string>Confirm password</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="input_confirmPassword">
-             <property name="minimumSize">
-              <size>
-               <width>250</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-             <property name="echoMode">
-              <enum>QLineEdit::Password</enum>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_buttons">
-           <property name="spacing">
-            <number>2</number>
-           </property>
-           <item>
-            <widget class="QPushButton" name="btn_signup">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Sign up</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="btn_login">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Login</string>
+              <string>Upload an image of garbage, and this intelligent app will predict its type using a powerful Deep Learning model. Simplify waste sorting with AI!</string>
              </property>
             </widget>
            </item>
@@ -400,7 +386,7 @@ QPushButton {
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources>
-  <include location="../../../../Downloads/resouce.qrc"/>
+  <include location="../../resource.qrc"/>
  </resources>
  <connections/>
 </ui>
