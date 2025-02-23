@@ -64,6 +64,8 @@ QPushButton {
  	background-color: #24b4fb;
 	color: #fff;
 	margin-top: 10px;
+    font-weight: bold;
+    font-size: 14px;
 }
 
 QPushButton:hover {
@@ -72,7 +74,8 @@ QPushButton:hover {
 
 #lbl_image {
 	margin-top: 4px;
-	border: 2px dashed #333
+	border: 2px dashed #333;
+	margin-bottom: 8px;
 }
 </string>
   </property>
@@ -191,7 +194,7 @@ QPushButton:hover {
           <widget class="QPushButton" name="btn_predict">
            <property name="font">
             <font>
-             <pointsize>10</pointsize>
+             <pointsize>-1</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -385,8 +388,6 @@ QPushButton:hover {
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="../../resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -20,18 +20,33 @@ class Login(QMainWindow):
         self.widget.addWidget(signup)
         self.widget.setCurrentIndex(self.widget.currentIndex() + 1)
 
+    def gotoClassify(self):
+        from views.classify import Classify
+        classify = Classify(self.widget)
+        self.widget.addWidget(classify)
+        self.widget.setCurrentIndex(self.widget.currentIndex() + 1)
+
     # Login
     def loginAccount(self):
         username = self.input_username.text()
         password = self.input_password.text()
 
-        if self.queryLoginAccount(username, password):
+        response = self.queryLoginAccount(username, password)
+        print(response)
+
+        if response.get('success'):
             msg=QtWidgets.QMessageBox()
             msg.setWindowTitle("Thông báo")
-            msg.setText("Đăng nhập thành công!")
+            msg.setText(f"Đăng nhập thành công!")
             msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
-            # Code navigate to the main here
-            # ...
+
+            if response.get('role_name') == 'user':
+                # Dô trang classify
+                self.gotoClassify()
+
+            # elif response.get('role_name') == 'admin':
+                # Dô trang admin
+                # ...
             msg.exec()
         else: 
             QtWidgets.QMessageBox.warning(self, "Thông báo", "Đăng nhập thất bại")
@@ -42,18 +57,19 @@ class Login(QMainWindow):
             conn = connect_db()
             cursor = conn.cursor(MySQLdb.cursors.DictCursor)
 
-            query = "SELECT * FROM accounts WHERE username = %s"
+            query = "SELECT * FROM accounts a INNER JOIN roles r ON r.role_id = a.role_id WHERE username = %s"
             cursor.execute(query, (username,))
 
             result = cursor.fetchone()
             conn.close()
 
             if result:
-                print(f"Input password: {password}, database password: {result['password']} ")
+                # print(f"Input password: {password}, database password: {result['password']} ")
                 hashed_password = result['password'].encode('utf-8')
-                return bcrypt.checkpw(password.encode('utf-8'), hashed_password)
+                isSuccess = bcrypt.checkpw(password.encode('utf-8'), hashed_password)
+                return {"success": True, "role_name": result['role_name']}
 
-            return False
+            return {"success": False}
         except mdb.Error as e:
             print(f"Database error: {e}")
-            return False
+            return {"success": False}

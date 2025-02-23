@@ -24,7 +24,7 @@ class Classify(QMainWindow):
     self.current_image_path = None
     self.btn_predict.clicked.connect(self.handle_predict)
 
-    model_path = os.path.join(os.path.dirname(__file__), "../models/resnet50.h5")
+    model_path = os.path.join(os.path.dirname(__file__), "../models/densenet_model.h5")
     self.model = load_model(model_path) 
 
   def dragEnterEvent(self, event):
@@ -90,10 +90,10 @@ class Classify(QMainWindow):
 
       # Resize đúng kích thước model yêu cầu (150, 150)
       # Model train size nhiêu thì chỉnh size bấy nhiêu, zui zẻ
-      img = cv2.resize(img, (150, 150))
+      img = cv2.resize(img, (224, 224))
 
       # Chuẩn hóa ảnh về khoảng [0,1]
-      # img_array = img.astype(np.float32) / 255.0
+      img_array = img.astype(np.float32) / 255.0
 
       # Thêm batch dimension (1, 150, 150, 3)
       img_array = np.expand_dims(img, axis=0)
@@ -101,8 +101,13 @@ class Classify(QMainWindow):
       # Dự đoán
       predictions = self.model.predict(img_array)
       predicted_class = np.argmax(predictions, axis=1)
+      print(predictions)
 
-      className = ['glioma_tumor','no_tumor','meningioma_tumor','pituitary_tumor']
+      className = ['battery','biological','brown-glass','cardboard','clothes','green-glass','metal','paper','plastic','shoes','trash','white-glass']
+      # className = ['paper', 'cardboard', 'plastic', 'metal', 'trash', 'battery',
+      #         'shoes', 'clothes', 'green-glass', 'brown-glass', 'white-glass',
+      #         'biological']
+
       confidence = np.max(predictions, axis=1)
 
       # Hiển thị kết quả
