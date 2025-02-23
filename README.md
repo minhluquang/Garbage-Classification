@@ -34,7 +34,9 @@ Chúng ta cần vào **views/classify.py** để thay đổi tên model muốn c
 ```
 model_path = os.path.join(os.path.dirname(__file__), "../models/resnet50.h5")
 ```
+Ngoài ra, cần phải vào **views/classify.py** ở **function: handle_predict** để thay đổi size hình ảnh cũng như className phù hợp với các cài đặt trong đoạn code train model.
 
+### **📂 Cấu trúc thư mục**
 ```
 Garbage-Classification/
 │── models/                     # Chứa các mô hình Deep Learning (.h5)
