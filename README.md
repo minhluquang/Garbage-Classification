@@ -29,6 +29,12 @@ pip install -r requirements.txt
 ```
 
 ### **3️⃣ Tạo thư mục models/ và thêm mô hình**
+Sau khi đã tạo thư mục models cũng như thêm model vào vào thư mục.
+Chúng ta cần vào **views/classify.py** để thay đổi tên model muốn chạy.
+```
+model_path = os.path.join(os.path.dirname(__file__), "../models/resnet50.h5")
+```
+
 ```
 Garbage-Classification/
 │── models/                     # Chứa các mô hình Deep Learning (.h5)
