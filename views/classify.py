@@ -2,6 +2,12 @@ from PyQt6.QtWidgets import QMainWindow, QLabel
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 from PyQt6.uic import loadUi
+import os
+import tensorflow as tf
+from tensorflow.keras.models import load_model
+import cv2
+import numpy as np
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 class Classify(QMainWindow):  
   def __init__(self, widget):
@@ -17,6 +23,9 @@ class Classify(QMainWindow):
 
     self.current_image_path = None
     self.btn_predict.clicked.connect(self.handle_predict)
+
+    model_path = os.path.join(os.path.dirname(__file__), "../models/resnet50.h5")
+    self.model = load_model(model_path) 
 
   def dragEnterEvent(self, event):
     if event.mimeData().hasUrls():
@@ -37,6 +46,9 @@ class Classify(QMainWindow):
       self.set_image(file_path)
 
   def set_image(self, file_path):
+    self.lbl_result.hide()
+    self.lbl_predict.hide()
+    
     self.current_image_path = file_path
     original_pixmap = QPixmap(file_path)
         
@@ -70,8 +82,34 @@ class Classify(QMainWindow):
 
   def handle_predict(self):
     if self.current_image_path:
-      print(f"Image path: {self.current_image_path}")
-      # Thêm code xử lý predict ở đây
+      print(f"Predicting for: {self.current_image_path}")
+
+      # Đọc ảnh và chuyển sang RGB
+      img = cv2.imread(self.current_image_path)
+      img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+      # Resize đúng kích thước model yêu cầu (150, 150)
+      # Model train size nhiêu thì chỉnh size bấy nhiêu, zui zẻ
+      img = cv2.resize(img, (150, 150))
+
+      # Chuẩn hóa ảnh về khoảng [0,1]
+      # img_array = img.astype(np.float32) / 255.0
+
+      # Thêm batch dimension (1, 150, 150, 3)
+      img_array = np.expand_dims(img, axis=0)
+
+      # Dự đoán
+      predictions = self.model.predict(img_array)
+      predicted_class = np.argmax(predictions, axis=1)
+
+      className = ['glioma_tumor','no_tumor','meningioma_tumor','pituitary_tumor']
+      confidence = np.max(predictions, axis=1)
+
+      # Hiển thị kết quả
+      self.lbl_predict.setText(f"{className[predicted_class[0]]} ({round(confidence[0] * 100, 2)}%)")
+      self.lbl_result.show()
+      self.lbl_predict.show()
     else:
       print("No image selected")
+
 

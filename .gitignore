@@ -1,0 +1,16 @@
+# Bỏ qua thư mục models/
+models/
+
+# Bỏ qua các thư viện Python
+venv/
+__pycache__/
+*.pyc
+
+# Nếu thư viện cài qua pip, không cần theo dõi chúng
+PyQt6/
+PyQt6-Tools/
+PyQt5Designer/
+mysqlclient/
+bcrypt/
+tensorflow/
+opencv-python/

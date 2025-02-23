@@ -3,3 +3,5 @@ PyQt6-Tools
 PyQt5Designer
 mysqlclient
 bcrypt
+tensorflow
+opencv-python
