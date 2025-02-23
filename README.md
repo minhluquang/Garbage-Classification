@@ -18,8 +18,8 @@ Dự án này sử dụng **Deep Learning** để phân loại rác thải từ 
 ### **1️⃣ Clone Repository**
 
 ```bash
-git clone https://github.com/minhluquang/Garbage-Classification-.git
-cd Garbage-Classification-
+git clone https://github.com/minhluquang/Garbage-Classification.git
+cd Garbage-Classification
 
 ```
 ### **2️⃣ Cài đặt thư viện**
