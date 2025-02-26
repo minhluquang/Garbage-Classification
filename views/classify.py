@@ -24,7 +24,7 @@ class Classify(QMainWindow):
     self.current_image_path = None
     self.btn_predict.clicked.connect(self.handle_predict)
 
-    model_path = os.path.join(os.path.dirname(__file__), "../models/densenet_model.h5")
+    model_path = os.path.join(os.path.dirname(__file__), "../models/resnet50.h5")
     self.model = load_model(model_path) 
 
   def dragEnterEvent(self, event):
@@ -82,39 +82,36 @@ class Classify(QMainWindow):
 
   def handle_predict(self):
     if self.current_image_path:
-      print(f"Predicting for: {self.current_image_path}")
+        print(f"Predicting for: {self.current_image_path}")
 
-      # Đọc ảnh và chuyển sang RGB
-      img = cv2.imread(self.current_image_path)
-      img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        # Đọc ảnh và chuyển sang RGB
+        img = cv2.imread(self.current_image_path)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-      # Resize đúng kích thước model yêu cầu (150, 150)
-      # Model train size nhiêu thì chỉnh size bấy nhiêu, zui zẻ
-      img = cv2.resize(img, (224, 224))
+        # Resize đúng kích thước model yêu cầu (224, 224)
+        img = cv2.resize(img, (224, 224))
 
-      # Chuẩn hóa ảnh về khoảng [0,1]
-      img_array = img.astype(np.float32) / 255.0
+        # Chuẩn hóa ảnh về khoảng [0,1]
+        img_array = img.astype(np.float32) / 255.0
 
-      # Thêm batch dimension (1, 150, 150, 3)
-      img_array = np.expand_dims(img, axis=0)
+        # Thêm batch dimension (1, 224, 224, 3)
+        img_array = np.expand_dims(img_array, axis=0)  # Sửa lỗi ở đây, dùng img_array thay vì img
 
-      # Dự đoán
-      predictions = self.model.predict(img_array)
-      predicted_class = np.argmax(predictions, axis=1)
-      print(predictions)
+        # Dự đoán
+        predictions = self.model.predict(img_array)
+        predicted_class = np.argmax(predictions, axis=1)
+        print(predictions)
 
-      className = ['battery','biological','brown-glass','cardboard','clothes','green-glass','metal','paper','plastic','shoes','trash','white-glass']
-      # className = ['paper', 'cardboard', 'plastic', 'metal', 'trash', 'battery',
-      #         'shoes', 'clothes', 'green-glass', 'brown-glass', 'white-glass',
-      #         'biological']
+        className = ['battery', 'biological', 'brown-glass', 'cardboard', 'clothes', 'green-glass', 
+            'metal', 'paper', 'plastic', 'shoes', 'trash', 'white-glass']
 
-      confidence = np.max(predictions, axis=1)
+        confidence = np.max(predictions, axis=1)
 
-      # Hiển thị kết quả
-      self.lbl_predict.setText(f"{className[predicted_class[0]]} ({round(confidence[0] * 100, 2)}%)")
-      self.lbl_result.show()
-      self.lbl_predict.show()
+        # Hiển thị kết quả
+        self.lbl_predict.setText(f"{className[predicted_class[0]]} ({round(confidence[0] * 100, 2)}%)")
+        self.lbl_result.show()
+        self.lbl_predict.show()
     else:
-      print("No image selected")
+        print("No image selected")
 
 
