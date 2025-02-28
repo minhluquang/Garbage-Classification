@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMainWindow, QLabel
+from PyQt6.QtWidgets import QMainWindow, QLabel, QFileDialog
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 from PyQt6.uic import loadUi
@@ -23,9 +23,23 @@ class Classify(QMainWindow):
 
     self.current_image_path = None
     self.btn_predict.clicked.connect(self.handle_predict)
+    self.btn_img.clicked.connect(self.openFileDialog)
 
     model_path = os.path.join(os.path.dirname(__file__), "../models/resnet50.h5")
     self.model = load_model(model_path) 
+
+
+  def openFileDialog(self):
+    file_dialog = QFileDialog(self)
+    file_dialog.setWindowTitle("Open File")
+    file_dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
+    file_dialog.setNameFilter("Images (*.png *.jpg *.jpeg *.bmp *.gif)") 
+    file_dialog.setViewMode(QFileDialog.ViewMode.Detail)
+
+    if file_dialog.exec():
+      selected_files = file_dialog.selectedFiles()
+      print("Selected File:", selected_files[0])
+      self.set_image(selected_files[0])
 
   def dragEnterEvent(self, event):
     if event.mimeData().hasUrls():
@@ -46,6 +60,8 @@ class Classify(QMainWindow):
       self.set_image(file_path)
 
   def set_image(self, file_path):
+    self.lbl_path.setText(f"Image: {file_path}")
+
     self.lbl_result.hide()
     self.lbl_predict.hide()
     
