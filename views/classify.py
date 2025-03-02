@@ -7,7 +7,7 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 import cv2
 import numpy as np
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+# os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 class Classify(QMainWindow):  
   def __init__(self, widget):
@@ -22,8 +22,8 @@ class Classify(QMainWindow):
     self.original_label_size = self.lbl_image.size()
 
     self.current_image_path = None
-    self.btn_predict.clicked.connect(self.handle_predict)
-    self.btn_img.clicked.connect(self.openFileDialog)
+    self.btn_predict_file.clicked.connect(self.handle_predict)
+    self.btn_choose_img_file.clicked.connect(self.openFileDialog)
 
     model_path = os.path.join(os.path.dirname(__file__), "../models/resnet50.h5")
     self.model = load_model(model_path) 

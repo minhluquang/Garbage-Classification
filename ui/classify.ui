@@ -19,12 +19,6 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>1200</width>
-    <height>700</height>
-   </size>
-  </property>
   <property name="font">
    <font>
     <pointsize>12</pointsize>
@@ -36,15 +30,11 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow {
-	border-image: url(assets/img/background.png);
-}
-
+   <string notr="true">
 /* Set background for widget */
 #widget {
-    background-color: #fff;
+    background-color: #fafafa;
     border-radius: 5px;
-	border: 10px solid rgba(0, 0, 0, 0.35);
 }
 
 /* Set text color for QLabel */
@@ -52,11 +42,16 @@ QLabel {
     color: #333;
 }
 
-#lbl_title, #lbl_result, #lbl_app_description {
+#lbl_title, #lbl_result, #lbl_app_description, #lbl_title_file {
 	font-weight: bold
 }
 
-QPushButton {
+#lbl_title_file {
+	font-size: 24px;
+	text-align: center;
+}
+
+#btn_predict_file, #btn_choose_img_file {
 	padding: 10px;
  	border-radius: 4px;
   	border: 2px solid #24b4fb;
@@ -65,9 +60,11 @@ QPushButton {
 	margin-top: 10px;
     font-weight: bold;
     font-size: 14px;
+	text-align: center;
 }
 
-QPushButton:hover {
+#btn_predict_file:hover,
+#btn_choose_img_file:hover {
    	background-color: #0071e2;
 }
 
@@ -86,16 +83,18 @@ QPushButton:hover {
 	background-color: #fff;
 }
 
-#lbl_path {
-	
-}
-
 #btn_img {
 	margin: 0px!important;
 }
 </string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="1" column="1">
      <widget class="QWidget" name="widget" native="true">
@@ -104,8 +103,8 @@ QPushButton:hover {
       </property>
       <property name="minimumSize">
        <size>
-        <width>1000</width>
-        <height>600</height>
+        <width>800</width>
+        <height>0</height>
        </size>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -147,26 +146,9 @@ QPushButton:hover {
           </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="lbl_title">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="font">
-            <font>
-             <family>Segoe UI</family>
-             <pointsize>24</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Plain</enum>
-           </property>
+          <widget class="QLabel" name="lbl_title_file">
            <property name="text">
-            <string>Garbage Classification App</string>
-           </property>
-           <property name="textFormat">
-            <enum>Qt::PlainText</enum>
+            <string>Classify Single Image</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -206,7 +188,7 @@ QPushButton:hover {
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="btn_img">
+              <widget class="QPushButton" name="btn_choose_img_file">
                <property name="text">
                 <string>Choose image</string>
                </property>
@@ -243,7 +225,13 @@ QPushButton:hover {
           </layout>
          </item>
          <item>
-          <widget class="QPushButton" name="btn_predict">
+          <widget class="QPushButton" name="btn_predict_file">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="font">
             <font>
              <pointsize>-1</pointsize>
@@ -319,32 +307,6 @@ QPushButton:hover {
            <property name="spacing">
             <number>2</number>
            </property>
-           <item>
-            <widget class="QLabel" name="lbl_app_description">
-             <property name="font">
-              <font>
-               <pointsize>10</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>App description:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_2">
-             <property name="font">
-              <font>
-               <pointsize>10</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Upload an image of garbage, and this intelligent app will predict its type using a powerful Deep Learning model. Simplify waste sorting with AI!</string>
-             </property>
-            </widget>
-           </item>
           </layout>
          </item>
          <item>

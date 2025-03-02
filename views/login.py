@@ -20,10 +20,10 @@ class Login(QMainWindow):
         self.widget.addWidget(signup)
         self.widget.setCurrentIndex(self.widget.currentIndex() + 1)
 
-    def gotoClassify(self):
-        from views.classify import Classify
-        classify = Classify(self.widget)
-        self.widget.addWidget(classify)
+    def gotoMain(self):
+        from views.main import Main
+        main = Main(self.widget)  
+        self.widget.addWidget(main)
         self.widget.setCurrentIndex(self.widget.currentIndex() + 1)
 
     # Login
@@ -42,7 +42,7 @@ class Login(QMainWindow):
 
             if response.get('role_name') == 'user':
                 # Dô trang classify
-                self.gotoClassify()
+                self.gotoMain()
 
             # elif response.get('role_name') == 'admin':
                 # Dô trang admin
