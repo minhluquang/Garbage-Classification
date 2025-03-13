@@ -11,7 +11,7 @@ widget = QStackedWidget()
 # widget.addWidget(login_screen)  
 # login_screen = Classify(widget)
 # widget.addWidget(login_screen)  
-login_screen = ClassifyFolder(widget)
+login_screen = Classify(widget)
 widget.addWidget(login_screen)  
 
 widget.setFixedSize(1200, 700)  

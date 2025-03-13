@@ -3,7 +3,7 @@ from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 from PyQt6.uic import loadUi
 import os
-# import tensorflow as tf
+import tensorflow as tf
 # from tensorflow.keras.models import load_model
 import cv2
 import numpy as np
@@ -21,9 +21,10 @@ class ClassifyFolder(QMainWindow):
     self.btn_input_folder.clicked.connect(self.openFolderDialog)
   
 
-    # model_path = os.path.join(os.path.dirname(__file__), "../models/resnet50.h5")
-    # self.model = load_model(model_path) 
-
+    model_path = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "../models/densenet201.h5")
+    )
+    self.model = tf.keras.models.load_model(model_path)
 
   def openFolderDialog(self):
     folder_path = QFileDialog.getExistingDirectory(self, "Select Folder")

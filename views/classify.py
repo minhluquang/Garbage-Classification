@@ -4,7 +4,6 @@ from PyQt6.QtCore import Qt
 from PyQt6.uic import loadUi
 import os
 import tensorflow as tf
-import tensorflow as tf
 import cv2
 import numpy as np
 # os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
@@ -12,7 +11,7 @@ import numpy as np
 class Classify(QMainWindow):  
   def __init__(self, widget):
     super(Classify, self).__init__()
-    # loadUi("ui/classify.ui", self)  
+    loadUi("ui/classify.ui", self)  
     self.widget = widget
     self.lbl_result.hide()
     self.lbl_predict.hide()
@@ -25,8 +24,10 @@ class Classify(QMainWindow):
     self.btn_predict_file.clicked.connect(self.handle_predict)
     self.btn_choose_img_file.clicked.connect(self.openFileDialog)
 
-    model_path = os.path.join(os.path.dirname(__file__), "../models/densenet201.h5")
-    self.model = tf.saved_model.load(model_path) 
+    model_path = os.path.abspath(
+      os.path.join(os.path.dirname(__file__), "../models/densenet201.h5")
+    )
+    self.model = tf.keras.models.load_model(model_path)
 
 
   def openFileDialog(self):
