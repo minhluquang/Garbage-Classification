@@ -21,8 +21,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>1200</width>
-    <height>700</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="font">
@@ -37,14 +37,14 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow {
-	border-image: url(assets/img/background.png);
+
 }
 
 /* Set background for widget */
 #widget {
     background-color: #fff;
     border-radius: 5px;
-	border: 10px solid rgba(0, 0, 0, 0.35);
+
 }
 
 /* Set text color for QLabel */
@@ -54,6 +54,11 @@ QLabel {
 
 #lbl_title, #lbl_result_title, #lbl_app_description, #lbl_predicting {
 	font-weight: bold
+}
+
+#lbl_title {
+	background-color: #fff;
+	font-size: 24px;
 }
 
 scrollArea {
@@ -165,8 +170,8 @@ QPushButton:hover {
       </property>
       <property name="minimumSize">
        <size>
-        <width>1000</width>
-        <height>600</height>
+        <width>0</width>
+        <height>0</height>
        </size>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -215,7 +220,7 @@ QPushButton:hover {
            <property name="font">
             <font>
              <family>Segoe UI</family>
-             <pointsize>24</pointsize>
+             <pointsize>-1</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -224,7 +229,7 @@ QPushButton:hover {
             <enum>QFrame::Plain</enum>
            </property>
            <property name="text">
-            <string>Garbage Classification App</string>
+            <string>Classify Folder Image</string>
            </property>
            <property name="textFormat">
             <enum>Qt::PlainText</enum>
@@ -276,7 +281,7 @@ QPushButton:hover {
             </layout>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <layout class="QHBoxLayout" name="outputFolderLayout">
              <item>
               <widget class="QLabel" name="lbl_output_path">
                <property name="text">
@@ -300,7 +305,7 @@ QPushButton:hover {
              <item>
               <widget class="QPushButton" name="btn_output_folder">
                <property name="text">
-                <string>Choose Folder</string>
+                <string>Save</string>
                </property>
               </widget>
              </item>
@@ -368,6 +373,12 @@ QPushButton:hover {
          </item>
          <item>
           <widget class="QScrollArea" name="scrollArea">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>200</height>
+            </size>
+           </property>
            <property name="widgetResizable">
             <bool>true</bool>
            </property>
@@ -376,13 +387,19 @@ QPushButton:hover {
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>909</width>
-              <height>210</height>
+              <width>786</width>
+              <height>218</height>
              </rect>
             </property>
             <layout class="QGridLayout" name="gridLayout_2">
              <item row="3" column="0">
               <widget class="QLabel" name="lbl_result">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>200</height>
+                </size>
+               </property>
                <property name="text">
                 <string>Battery: 20
 Biological: 10

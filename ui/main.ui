@@ -135,7 +135,7 @@
           <item>
            <widget class="QPushButton" name="btn_logout">
             <property name="text">
-             <string>Logout</string>
+             <string>Thoát</string>
             </property>
            </widget>
           </item>

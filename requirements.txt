@@ -5,3 +5,4 @@ mysqlclient
 bcrypt
 tensorflow
 opencv-python
+matplotlib
