@@ -30,9 +30,10 @@ class Signup(QMainWindow):
         msg.exec()
 
     def validation(self, username, password, confirmPassword):
-        if not re.fullmatch(r"^[a-zA-Z0-9]{4,20}$", username):
-            self.show_message("Thông báo", " - Username phải có 4-20 ký tự.\n - Chỉ chứa chữ, số.", "warning")
+        if not re.fullmatch(r"^[a-z][a-z0-9]{3,19}$", username):
+            self.show_message("Thông báo", " - Username phải bắt đầu bằng chữ thường (a-z).\n - Độ dài từ 4-20 ký tự.\n - Chỉ chứa chữ thường và số.", "warning")
             return False
+
 
         if not (8 <= len(password) <= 32):
             self.show_message("Thông báo", " - Mật khẩu phải có từ 8 đến 32 ký tự.", "warning")

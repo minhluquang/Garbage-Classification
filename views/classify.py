@@ -24,6 +24,14 @@ class Classify(QMainWindow):
     self.btn_predict_file.clicked.connect(self.handle_predict)
     self.btn_choose_img_file.clicked.connect(self.openFileDialog)
 
+    self.btn_predict_file.setEnabled(False)
+    self.btn_predict_file.setStyleSheet("""
+        QPushButton:disabled {
+            background-color: #A0A0A0; 
+            color: #ffffff; 
+            border: 1px solid #808080; 
+        }""")
+
     model_path = os.path.abspath(
       os.path.join(os.path.dirname(__file__), "../models/densenet201.h5")
     )
@@ -41,6 +49,7 @@ class Classify(QMainWindow):
       selected_files = file_dialog.selectedFiles()
       print("Selected File:", selected_files[0])
       self.set_image(selected_files[0])
+      self.btn_predict_file.setEnabled(True)
 
   def dragEnterEvent(self, event):
     if event.mimeData().hasUrls():
@@ -59,6 +68,7 @@ class Classify(QMainWindow):
       event.acceptProposedAction()
       file_path = event.mimeData().urls()[0].toLocalFile()
       self.set_image(file_path)
+      self.btn_predict_file.setEnabled(True)
 
   def set_image(self, file_path):
     self.lbl_path.setText(f"Image: {file_path}")

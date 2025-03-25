@@ -1,5 +1,4 @@
 from PyQt6.QtWidgets import QMainWindow, QFileDialog, QMessageBox, QDialog, QVBoxLayout, QLabel
-from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 from PyQt6.uic import loadUi
 import os
@@ -11,6 +10,8 @@ from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QApplication 
 import shutil  # For moving files
 import matplotlib.pyplot as plt
+from PyQt6.QtGui import QImage, QPixmap
+import io
 
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
@@ -41,9 +42,16 @@ class ClassifyFolder(QMainWindow):
                 border: 1px solid #808080; 
             }""")
 
+        self.btn_predict.setEnabled(False)
+        self.btn_predict.setStyleSheet("""
+            QPushButton:disabled {
+                background-color: #A0A0A0; 
+                color: #ffffff; 
+                border: 1px solid #808080; 
+            }""")
+
     def openFolderDialog(self):
         folder_path = QFileDialog.getExistingDirectory(self, "Select Input Folder")
-
         if not folder_path:  
             return
 
@@ -55,11 +63,20 @@ class ClassifyFolder(QMainWindow):
 
         # Recursively find all image files in the folder and subfolders
         image_files = [str(file.resolve()) for file in Path(folder_path).rglob("*") if file.suffix.lower() in image_extensions]
+        self.lbl_output_path.setText("Output folder:")
+        self.lbl_predicting.hide()
+        self.lbl_result.hide()
 
         if not image_files:
-            QMessageBox.warning(self, "No Images Found", "The selected folder does not contain any images.")
+            self.btn_predict.setEnabled(False)
+            msg=QtWidgets.QMessageBox()
+            msg.setWindowTitle("Thông báo")
+            msg.setText(f"Thư mục bạn chọn không chứa hình ảnh nào cả!")
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.exec()
+            # QMessageBox.warning(self, "No Images Found", "The selected folder does not contain any images.")
             return
-
+        self.btn_predict.setEnabled(True)
         self.current_image_path = image_files  # Store selected images
 
         # Reset prediction status
@@ -68,11 +85,12 @@ class ClassifyFolder(QMainWindow):
 
     def handle_outputFolder(self):
         if not self.prediction_done:
-            QMessageBox.warning(self, "Prediction Required", "You must complete the prediction before selecting the output folder.")
+            # QMessageBox.warning(self, "Prediction Required", "You must complete the prediction before selecting the output folder.")
             msg=QtWidgets.QMessageBox()
             msg.setWindowTitle("Thông báo")
             msg.setText(f"Bạn phải hoàn thành việc dự đoán trước khi chọn thư mục đầu ra.")
-            msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.exec()
             return
 
         folder_path = QFileDialog.getExistingDirectory(self, "Select Output Folder")
@@ -92,7 +110,9 @@ class ClassifyFolder(QMainWindow):
             msg=QtWidgets.QMessageBox()
             msg.setWindowTitle("Thông báo")
             msg.setText(f"Bạn phải chọn folder cần phân loại trước khi bấm vào nút này!")
-            msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.exec()
+
             # QMessageBox.warning(self, "Input Folder Required", "You must select an input folder before predicting.")
             return
 
@@ -162,7 +182,9 @@ class ClassifyFolder(QMainWindow):
             msg=QtWidgets.QMessageBox()
             msg.setWindowTitle("Thông báo")
             msg.setText(f"Bạn phải chọn folder cần lưu trước khi bấm vào nút này!")
-            msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.exec()
+
             return
 
         for image_path, class_name in self.image_class_map.items():
@@ -181,6 +203,7 @@ class ClassifyFolder(QMainWindow):
         msg.setWindowTitle("Thông báo")
         msg.setText(f"Hình ảnh đã được di chuyển vào các thư mục tương ứng.")
         msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+        msg.exec()
         print(f"Images successfully moved to: {self.output_folder}")
         self.lbl_output_path.setText(f'Output Folder: {self.output_folder}')
 
@@ -190,7 +213,8 @@ class ClassifyFolder(QMainWindow):
             msg=QtWidgets.QMessageBox()
             msg.setWindowTitle("Thông báo")
             msg.setText(f"Không có dữ liệu phân loại nào.")
-            msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.exec()
             return
 
         labels = list(self.class_counts.keys())
@@ -202,10 +226,9 @@ class ClassifyFolder(QMainWindow):
         plt.ylabel("Số lượng ảnh")
         plt.title("Thống kê phân loại rác thải")
         plt.xticks(rotation=45)
-        # plt.savefig("statistics.png", bbox_inches="tight") 
+        plt.savefig("temp/statistics.png", bbox_inches="tight") 
         plt.close()
-
-        self.show_chart_window("statistics.png")
+        self.show_chart_window("temp/statistics.png")
 
     def show_chart_window(self, image_path):
         dialog = QDialog(self)
