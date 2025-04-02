@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMainWindow, QLabel, QFileDialog
+from PyQt6.QtWidgets import QMainWindow, QFileDialog, QMessageBox, QDialog, QVBoxLayout, QLabel
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 from PyQt6.uic import loadUi
@@ -6,6 +6,8 @@ import os
 import tensorflow as tf
 import cv2
 import numpy as np
+from PyQt6 import QtWidgets
+from PyQt6.QtWidgets import QApplication 
 # os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 class Classify(QMainWindow):  
@@ -65,10 +67,19 @@ class Classify(QMainWindow):
 
   def dropEvent(self, event):
     if event.mimeData().hasUrls():
-      event.acceptProposedAction()
       file_path = event.mimeData().urls()[0].toLocalFile()
-      self.set_image(file_path)
-      self.btn_predict_file.setEnabled(True)
+      valid_extensions = (".png", ".jpg", ".jpeg")
+      if file_path.lower().endswith(valid_extensions):
+        event.acceptProposedAction()
+        self.set_image(file_path)
+        self.btn_predict_file.setEnabled(True)
+      else:
+        event.ignore()
+        msg=QtWidgets.QMessageBox()
+        msg.setWindowTitle("Thông báo")
+        msg.setText(f"Vui lòng chọn tập tin ảnh .png, .jpg, hoặc .jpeg!")
+        msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+        msg.exec()
 
   def set_image(self, file_path):
     self.lbl_path.setText(f"Image: {file_path}")
