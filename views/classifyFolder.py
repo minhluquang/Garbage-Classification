@@ -12,6 +12,7 @@ import shutil  # For moving files
 import matplotlib.pyplot as plt
 from PyQt6.QtGui import QImage, QPixmap
 import io
+import time
 
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
@@ -130,6 +131,7 @@ class ClassifyFolder(QMainWindow):
             self.image_class_map = {}  # Store image paths mapped to predicted class
 
             countPredict = 0
+            start_time = time.perf_counter()
 
             for image_path in self.current_image_path:
                 countPredict += 1
@@ -161,8 +163,12 @@ class ClassifyFolder(QMainWindow):
                 # Store mapping of image to predicted class
                 self.image_class_map[image_path] = predicted_label
 
+            end_time = time.perf_counter()
+            elapsed_time = end_time - start_time  
+
             # Format results for display
             result_text = "\n".join([f"{name}: {count}" for name, count in self.class_counts.items() if count > 0])
+            print(f"\nThời gian thực thi: {elapsed_time:.2f} giây")
 
             # Display results
             self.lbl_result.setText(result_text)

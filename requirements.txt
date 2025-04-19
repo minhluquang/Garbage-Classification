@@ -1,8 +1,8 @@
 PyQt6
-PyQt6-Tools
-PyQt5Designer
 mysqlclient
 bcrypt
 tensorflow
 opencv-python
 matplotlib
+PyQt6-Tools
+PyQt5Designer

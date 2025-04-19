@@ -4,7 +4,6 @@ from views.login import Login
 from views.classify import Classify
 from views.classifyFolder import ClassifyFolder
 from views.main import Main
-
 app = QApplication(sys.argv)
 widget = QStackedWidget()
 
